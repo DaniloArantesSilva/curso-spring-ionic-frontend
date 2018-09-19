@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { StorageService } from '../services/storage.services';
-import { AlertController } from 'ionic-angular';
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
 
 @Injectable()
@@ -37,11 +37,15 @@ export class ErrorInterceptor implements HttpInterceptor {
                     break;
 
                 default:
-                    this.handleDefaultError(errorObj);
+                    this.handleDefaultEror(errorObj);
             }
 
             return Observable.throw(errorObj);
         }) as any;
+    }
+
+    handle403() {
+        this.storage.setLocalUser(null);
     }
 
     handle401() {
@@ -56,13 +60,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             ]
         });
         alert.present();
-    }
+    }    
 
-    handle403() {
-        this.storage.setLocalUser(null);
-    }
-
-    handleDefaultError(errorObj){
+    handleDefaultEror(errorObj){
         let alert = this.alertCtrl.create({
             title: 'Erro ' + errorObj.status + ': ' + errorObj.error,
             message: errorObj.message,
@@ -81,4 +81,4 @@ export const ErrorInterceptorProvider = {
     provide: HTTP_INTERCEPTORS,
     useClass: ErrorInterceptor,
     multi: true,
-}
+};

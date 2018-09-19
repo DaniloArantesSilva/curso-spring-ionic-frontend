@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { CredenciaisDTO } from "../models/credenciais.dto";
 import { HttpClient } from "@angular/common/http";
 import { API_CONFIG } from "../config/api.config";
-import { StorageService } from "./storage.services";
 import { LocalUser } from "../models/local_user";
+import { StorageService } from "./storage.services";
 import { JwtHelper } from 'angular2-jwt';
 
 @Injectable()
@@ -14,9 +14,9 @@ export class AuthService {
     constructor(public http: HttpClient, public storage: StorageService) {
     }
 
-    authenticate(creds: CredenciaisDTO) {
+    authenticate(creds : CredenciaisDTO) {
         return this.http.post(
-            `${API_CONFIG.baseUrl}/login`,
+            `${API_CONFIG.baseUrl}/login`, 
             creds,
             {
                 observe: 'response',
@@ -24,8 +24,20 @@ export class AuthService {
             });
     }
 
+    refreshToken() {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/auth/refresh_token`, 
+            {},
+            {
+                observe: 'response',
+                responseType: 'text'
+            });
+    }
+
     successfulLogin(authorizationValue : string) {
+        console.log("aqui passou");
         let tok = authorizationValue.substring(7);
+        console.log("aqui não passou");
         let user : LocalUser = {
             token: tok,
             email: this.jwtHelper.decodeToken(tok).sub
