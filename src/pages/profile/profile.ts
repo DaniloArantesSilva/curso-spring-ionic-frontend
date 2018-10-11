@@ -66,11 +66,10 @@ export class ProfilePage {
       mediaType: this.camera.MediaType.PICTURE
     }
 
-    this.camera.getPicture(options).then((ImageData) => {
-      this.picture = 'data:image/png;base64,' + ImageData;
+    this.camera.getPicture(options).then((imageData) => {
+      this.picture = 'data:image/png;base64,' + imageData;
       this.cameraOn = false;
     }, (err) => {
-      this.cameraOn = false;
     });
   }
 
@@ -85,11 +84,10 @@ export class ProfilePage {
       mediaType: this.camera.MediaType.PICTURE
     }
 
-    this.camera.getPicture(options).then((ImageData) => {
-      this.picture = 'data:image/png;base64,' + ImageData;
+    this.camera.getPicture(options).then((imageData) => {
+      this.picture = 'data:image/png;base64,' + imageData;
       this.cameraOn = false;
     }, (err) => {
-      this.cameraOn = false;
     });
   }
 
